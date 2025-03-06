@@ -1,21 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <unattend xmlns="urn:schemas-microsoft-com:unattend" xmlns:wcm="http://schemas.microsoft.com/WMIConfig/2002/State">
-	<!--https://schneegans.de/windows/unattend-generator/?LanguageMode=Unattended&UILanguage=en-GB&Locale=en-US&Keyboard=00000409&GeoLocation=244&ProcessorArchitecture=amd64&BypassRequirementsCheck=true&BypassNetworkCheck=true&UseConfigurationSet=true&HidePowerShellWindows=true&ComputerNameMode=Random&CompactOsMode=Default&TimeZoneMode=Implicit&PartitionMode=Interactive&WindowsEditionMode=Generic&WindowsEdition=pro&UserAccountMode=Unattended&AccountName0=Default&AccountDisplayName0=&AccountPassword0=1234&AccountGroup0=Administrators&AccountName1=&AccountName2=&AccountName3=&AccountName4=&AutoLogonMode=Own&PasswordExpirationMode=Unlimited&LockoutMode=Default&HideFiles=HiddenSystem&ShowFileExtensions=true&ClassicContextMenu=true&LaunchToThisPC=true&TaskbarSearch=Hide&TaskbarIconsMode=Empty&DisableWidgets=true&LeftTaskbar=true&DisableBingResults=true&StartTilesMode=Default&StartPinsMode=Empty&DisableWindowsUpdate=true&EnableLongPaths=true&AllowPowerShellScripts=true&PreventAutomaticReboot=true&DisableAppSuggestions=true&HideEdgeFre=true&MakeEdgeUninstallable=true&DisablePointerPrecision=true&DeleteWindowsOld=true&EffectsMode=Default&DesktopIconsMode=Custom&IconRecycleBin=true&IconThisPC=true&WifiMode=Skip&ExpressSettings=DisableAll&KeysMode=Skip&ColorMode=Custom&SystemColorTheme=Dark&AppsColorTheme=Dark&AccentColor=%230078d4&EnableTransparency=true&WallpaperMode=Default&Remove3DViewer=true&RemoveBingSearch=true&RemoveClipchamp=true&RemoveCopilot=true&RemoveCortana=true&RemoveDevHome=true&RemoveFamily=true&RemoveFeedbackHub=true&RemoveGetHelp=true&RemoveHandwriting=true&RemoveMaps=true&RemoveMathInputPanel=true&RemoveMixedReality=true&RemoveZuneVideo=true&RemoveNews=true&RemoveOffice365=true&RemoveOneDrive=true&RemoveOneNote=true&RemoveOneSync=true&RemoveOpenSSHClient=true&RemoveOutlook=true&RemovePaint3D=true&RemovePeople=true&RemovePowerAutomate=true&RemoveQuickAssist=true&RemoveRecall=true&RemoveSkype=true&RemoveSolitaire=true&RemoveSpeech=true&RemoveStepsRecorder=true&RemoveStickyNotes=true&RemoveTeams=true&RemoveGetStarted=true&RemoveToDo=true&RemoveWallet=true&RemoveWeather=true&RemoveWindowsHello=true&RemoveWordPad=true&RemoveYourPhone=true&SystemScript0=start+%2Fwait+C%3A%5CWindows%5CSetup%5CPowerToysSetup.exe+%2Fq&SystemScriptType0=Cmd&SystemScript1=start+%2Fwait+C%3A%5CWindows%5CSetup%5CUniGetUI.exe+%2FSP+%2FVERYSILENT+%2FSUPPRESSMSGBOXES+%2FNORESTART+%2FNoAutoStart+%2FALLUSERS+%2FLANG%3Denglish%0D%0A%3Astart%0D%0Awmic+process+where+name%3D%22UniGetUI.tmp%22+get+name+%7Cfind+%22UniGetUI.tmp%22%3Enul%0D%0Aif+%25errorlevel%25%3D%3D0+goto+%3Astart&SystemScriptType1=Cmd&WdacMode=Configure&WdacAuditMode=AuditingOnBootFailure&WdacScriptMode=Restricted-->
+	<!--Autounattend File for Pluma11. Modified Version of the schneegans.de Template-->
 	<settings pass="offlineServicing"></settings>
 	<settings pass="windowsPE">
 		<component name="Microsoft-Windows-International-Core-WinPE" processorArchitecture="amd64" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="nonSxS">
 			<SetupUILanguage>
-				<UILanguage>en-GB</UILanguage>
+				<UILanguage>%Lang%</UILanguage>
 			</SetupUILanguage>
-			<InputLocale>0409:00000409</InputLocale>
-			<SystemLocale>en-US</SystemLocale>
-			<UILanguage>en-GB</UILanguage>
-			<UserLocale>en-US</UserLocale>
+			<InputLocale>%InputLoc%</InputLocale>
+			<SystemLocale>%Locale%</SystemLocale>
+			<UILanguage>%Lang%</UILanguage>
+			<UserLocale>%Locale%</UserLocale>
 		</component>
 		<component name="Microsoft-Windows-Setup" processorArchitecture="amd64" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="nonSxS">
 			<UserData>
 				<ProductKey>
-					<Key>VK7JG-NPHTM-C97JM-9MPGT-3V66T</Key>
+					<Key>00000-00000-00000-00000-00000</Key>
 					<WillShowUI>OnError</WillShowUI>
 				</ProductKey>
 				<AcceptEula>true</AcceptEula>
@@ -77,22 +77,22 @@
 			<UserAccounts>
 				<LocalAccounts>
 					<LocalAccount wcm:action="add">
-						<Name>User</Name>
+						<Name>%User%</Name>
 						<DisplayName></DisplayName>
 						<Group>Administrators</Group>
 						<Password>
-							<Value>1234</Value>
+							<Value>%Pass%</Value>
 							<PlainText>true</PlainText>
 						</Password>
 					</LocalAccount>
 				</LocalAccounts>
 			</UserAccounts>
 			<AutoLogon>
-				<Username>User</Username>
+				<Username>%User%</Username>
 				<Enabled>true</Enabled>
 				<LogonCount>1</LogonCount>
 				<Password>
-					<Value>1234</Value>
+					<Value>%Pass%</Value>
 					<PlainText>true</PlainText>
 				</Password>
 			</AutoLogon>
@@ -128,81 +128,8 @@ foreach( $file in $Document.unattend.Extensions.File ) {
     [System.IO.File]::WriteAllBytes( $path, $bytes );
 }
 		</ExtractScript>
-		<File path="C:\Windows\Setup\Scripts\RemovePackages.ps1">
-$selectors = @(
-	'Microsoft.Microsoft3DViewer';
-	'Microsoft.BingSearch';
-	'Clipchamp.Clipchamp';
-	'Microsoft.549981C3F5F10';
-	'Microsoft.Windows.DevHome';
-	'MicrosoftCorporationII.MicrosoftFamily';
-	'Microsoft.WindowsFeedbackHub';
-	'Microsoft.GetHelp';
-	'Microsoft.Getstarted';
-	'Microsoft.WindowsMaps';
-	'Microsoft.MixedReality.Portal';
-	'Microsoft.BingNews';
-	'Microsoft.MicrosoftOfficeHub';
-	'Microsoft.Office.OneNote';
-	'Microsoft.OutlookForWindows';
-	'Microsoft.MSPaint';
-	'Microsoft.People';
-	'Microsoft.PowerAutomateDesktop';
-	'MicrosoftCorporationII.QuickAssist';
-	'Microsoft.SkypeApp';
-	'Microsoft.MicrosoftSolitaireCollection';
-	'Microsoft.MicrosoftStickyNotes';
-	'MicrosoftTeams';
-	'MSTeams';
-	'Microsoft.Todos';
-	'Microsoft.Wallet';
-	'Microsoft.BingWeather';
-	'Microsoft.YourPhone';
-	'Microsoft.ZuneVideo';
-);
-$getCommand = {
-  Get-AppxProvisionedPackage -Online;
-};
-$filterCommand = {
-  $_.DisplayName -eq $selector;
-};
-$removeCommand = {
-  [CmdletBinding()]
-  param(
-    [Parameter( Mandatory, ValueFromPipeline )]
-    $InputObject
-  );
-  process {
-    $InputObject | Remove-AppxProvisionedPackage -AllUsers -Online -ErrorAction 'Continue';
-  }
-};
-$type = 'Package';
-$logfile = 'C:\Windows\Setup\RemovePackages.log';
-&amp; {
-	$installed = &amp; $getCommand;
-	foreach( $selector in $selectors ) {
-		$result = [ordered] @{
-			Selector = $selector;
-		};
-		$found = $installed | Where-Object -FilterScript $filterCommand;
-		if( $found ) {
-			$result.Output = $found | &amp; $removeCommand;
-			if( $? ) {
-				$result.Message = "$type removed.";
-			} else {
-				$result.Message = "$type not removed.";
-				$result.Error = $Error[0];
-			}
-		} else {
-			$result.Message = "$type not installed.";
-		}
-		$result | ConvertTo-Json -Depth 3 -Compress;
-	}
-} *&gt;&amp;1 &gt;&gt; $logfile;
-		</File>
 		<File path="C:\Windows\Setup\Scripts\RemoveCapabilities.ps1">
 $selectors = @(
-	'Language.Handwriting';
 	'MathRecognizer';
 	'OneCoreUAP.OneSync';
 	'OpenSSH.Client';
@@ -210,9 +137,6 @@ $selectors = @(
 	'Language.Speech';
 	'Language.TextToSpeech';
 	'App.StepsRecorder';
-	'Hello.Face.18967';
-	'Hello.Face.Migration.18967';
-	'Hello.Face.20134';
 	'Microsoft.Windows.WordPad';
 );
 $getCommand = {
@@ -691,9 +615,6 @@ $scripts = @(
 	};
 	{
 		reg.exe add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Communications" /v ConfigureChatAutoInstall /t REG_DWORD /d 0 /f;
-	};
-	{
-		Get-Content -LiteralPath 'C:\Windows\Setup\Scripts\RemovePackages.ps1' -Raw | Invoke-Expression;
 	};
 	{
 		Get-Content -LiteralPath 'C:\Windows\Setup\Scripts\RemoveCapabilities.ps1' -Raw | Invoke-Expression;
